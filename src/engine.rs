@@ -6,9 +6,12 @@ pub struct CompilationEngine {}
 
 impl CompilationEngine {
     pub fn compile(
-        _tokenizer: &dyn Iterator<Item = Token>,
+        tokenizer: &mut dyn Iterator<Item = Token>,
         _writer: &mut dyn Write,
     ) -> std::io::Result<()> {
+        while let Some(token) = tokenizer.next() {
+            println!(">>> {:?}", token)
+        }
         Ok(())
     }
 }

@@ -15,14 +15,14 @@ impl Analyzer {
 
         for file in files {
             // instatiate a new Tokenizer
-            let tokenizer = Tokenizer::new(&file);
+            let mut tokenizer = Tokenizer::new(&file);
 
             // create a output file
             let output_file = File::create(file.with_extension("xml"))?;
             let mut writer = BufWriter::new(output_file);
 
             // use compilation engine to compile tokens from the tokenizer
-            CompilationEngine::compile(&tokenizer, &mut writer)?;
+            CompilationEngine::compile(&mut tokenizer, &mut writer)?;
 
             // save compilation output into output file
             writer.flush()?;
