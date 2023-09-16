@@ -1,5 +1,5 @@
-mod tokenizer;
-pub use tokenizer::Tokenizer;
+mod naive_tokenizer;
+pub use naive_tokenizer::NaiveTokenizer;
 
 mod engine;
 pub use engine::CompilationEngine;
@@ -12,3 +12,6 @@ pub use token::Token;
 
 mod elements;
 pub use elements::lexical_elements;
+
+mod stream_tokenizer;
+pub use stream_tokenizer::StreamTokenizer;

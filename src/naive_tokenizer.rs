@@ -1,15 +1,15 @@
 use crate::{
-    lexical_elements::{Identifier, Keywords, Symbols},
+    lexical_elements::{Keywords, Symbols},
     Token,
 };
 use std::{fs::File, io::BufRead, io::BufReader, path::PathBuf, str::FromStr};
 
-pub struct Tokenizer {
+pub struct NaiveTokenizer {
     tokens: Vec<Token>,
     i: usize,
 }
 
-impl Tokenizer {
+impl NaiveTokenizer {
     pub fn new(source: &PathBuf) -> Self {
         let mut tokens = Vec::new();
 
@@ -89,8 +89,7 @@ impl Tokenizer {
                     continue;
                 }
 
-                let token = Identifier::from_str(t).unwrap();
-                tokens.push(Token::Identifier(token));
+                tokens.push(Token::Identifier(t.to_string()));
             }
         }
 
@@ -110,7 +109,7 @@ impl Tokenizer {
     }
 }
 
-impl Iterator for Tokenizer {
+impl Iterator for NaiveTokenizer {
     type Item = Token;
 
     fn next(&mut self) -> Option<Self::Item> {

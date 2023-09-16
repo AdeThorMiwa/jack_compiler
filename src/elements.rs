@@ -1,6 +1,8 @@
 pub mod lexical_elements {
     use std::str::FromStr;
 
+    use anyhow::anyhow;
+
     #[derive(Debug, Clone)]
     pub enum Keywords {
         Class,
@@ -27,7 +29,7 @@ pub mod lexical_elements {
     }
 
     impl FromStr for Keywords {
-        type Err = ();
+        type Err = anyhow::Error;
 
         fn from_str(s: &str) -> Result<Self, Self::Err> {
             let v = match s {
@@ -52,10 +54,38 @@ pub mod lexical_elements {
                 "else" => Self::Else,
                 "while" => Self::While,
                 "return" => Self::Return,
-                _ => return Err(()),
+                _ => return Err(anyhow!("Invalid keyword")),
             };
 
             Ok(v)
+        }
+    }
+
+    impl ToString for Keywords {
+        fn to_string(&self) -> String {
+            match self {
+                Self::Class => "class".to_owned(),
+                Self::Constructor => "constructor".to_owned(),
+                Self::Function => "function".to_owned(),
+                Self::Method => "method".to_owned(),
+                Self::Field => "field".to_owned(),
+                Self::Static => "static".to_owned(),
+                Self::Var => "var".to_owned(),
+                Self::Int => "int".to_owned(),
+                Self::Char => "char".to_owned(),
+                Self::Boolean => "boolean".to_owned(),
+                Self::Void => "void".to_owned(),
+                Self::True => "true".to_owned(),
+                Self::False => "false".to_owned(),
+                Self::Null => "null".to_owned(),
+                Self::This => "this".to_owned(),
+                Self::Let => "let".to_owned(),
+                Self::Do => "do".to_owned(),
+                Self::If => "if".to_owned(),
+                Self::Else => "else".to_owned(),
+                Self::While => "while".to_owned(),
+                Self::Return => "return".to_owned(),
+            }
         }
     }
 
@@ -75,7 +105,7 @@ pub mod lexical_elements {
         Asterik,
         BackSlash,
         Ampersand,
-        OrPipe,
+        VerticalBar,
         LessThan,
         GreaterThan,
         Equal,
@@ -83,7 +113,7 @@ pub mod lexical_elements {
     }
 
     impl FromStr for Symbols {
-        type Err = ();
+        type Err = anyhow::Error;
 
         fn from_str(s: &str) -> Result<Self, Self::Err> {
             let v = match s {
@@ -101,30 +131,41 @@ pub mod lexical_elements {
                 "*" => Self::Asterik,
                 "/" => Self::BackSlash,
                 "&" => Self::Ampersand,
-                "|" => Self::OrPipe,
+                "|" => Self::VerticalBar,
                 "<" => Self::LessThan,
                 ">" => Self::GreaterThan,
                 "=" => Self::Equal,
                 "~" => Self::Tilde,
-                _ => return Err(()),
+                _ => return Err(anyhow!("Invalid symbol")),
             };
 
             Ok(v)
         }
     }
 
-    #[derive(Debug, Clone)]
-    pub struct Identifier(String);
-
-    impl FromStr for Identifier {
-        type Err = ();
-
-        fn from_str(s: &str) -> Result<Self, Self::Err> {
-            if s.chars().next().unwrap().is_numeric() {
-                return Err(());
+    impl ToString for Symbols {
+        fn to_string(&self) -> String {
+            match self {
+                Self::OpenCurlyBrace => "{".to_owned(),
+                Self::CloseCurlyBrace => "}".to_owned(),
+                Self::OpenBrace => "(".to_owned(),
+                Self::CloseBrace => ")".to_owned(),
+                Self::OpenSquareBrace => "[".to_owned(),
+                Self::CloseSquareBrace => "]".to_owned(),
+                Self::Dot => ".".to_owned(),
+                Self::Comma => ",".to_owned(),
+                Self::SemiColon => ";".to_owned(),
+                Self::Plus => "+".to_owned(),
+                Self::Minus => "-".to_owned(),
+                Self::Asterik => "*".to_owned(),
+                Self::BackSlash => "/".to_owned(),
+                Self::Ampersand => "&".to_owned(),
+                Self::VerticalBar => "|".to_owned(),
+                Self::LessThan => "<".to_owned(),
+                Self::GreaterThan => ">".to_owned(),
+                Self::Equal => "=".to_owned(),
+                Self::Tilde => "~".to_owned(),
             }
-
-            Ok(Self(s.to_owned()))
         }
     }
 }

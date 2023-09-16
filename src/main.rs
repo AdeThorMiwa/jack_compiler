@@ -1,5 +1,6 @@
 use std::path::PathBuf;
 
+use anyhow::Result;
 use clap::Parser;
 use jack_compiler::Analyzer;
 
@@ -10,7 +11,7 @@ struct Args {
     source: String,
 }
 
-fn main() -> std::io::Result<()> {
+fn main() -> Result<()> {
     let args = Args::parse();
     Analyzer::analyze(&PathBuf::from(args.source))?;
     Ok(())

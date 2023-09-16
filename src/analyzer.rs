@@ -5,17 +5,20 @@ use std::{
     path::PathBuf,
 };
 
-use crate::{CompilationEngine, Tokenizer};
+use anyhow::Result;
+
+use crate::{CompilationEngine, StreamTokenizer};
 
 pub struct Analyzer;
 
 impl Analyzer {
-    pub fn analyze(source: &PathBuf) -> std::io::Result<()> {
+    pub fn analyze(source: &PathBuf) -> Result<()> {
         let files = Self::read_source_files(source)?;
 
         for file in files {
             // instatiate a new Tokenizer
-            let mut tokenizer = Tokenizer::new(&file);
+            // let mut tokenizer = NaiveTokenizer::new(&file);
+            let mut tokenizer = StreamTokenizer::new(&file);
 
             // create a output file
             let output_file = File::create(file.with_extension("xml"))?;
