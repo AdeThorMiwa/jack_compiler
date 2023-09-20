@@ -89,6 +89,12 @@ pub mod lexical_elements {
         }
     }
 
+    impl PartialEq for Keywords {
+        fn eq(&self, other: &Self) -> bool {
+            self.to_string() == other.to_string()
+        }
+    }
+
     #[derive(Debug, Clone)]
     pub enum Symbols {
         OpenCurlyBrace,
@@ -161,11 +167,17 @@ pub mod lexical_elements {
                 Self::BackSlash => "/".to_owned(),
                 Self::Ampersand => "&".to_owned(),
                 Self::VerticalBar => "|".to_owned(),
-                Self::LessThan => "<".to_owned(),
-                Self::GreaterThan => ">".to_owned(),
+                Self::LessThan => "&lt;".to_owned(),
+                Self::GreaterThan => "&gt;".to_owned(),
                 Self::Equal => "=".to_owned(),
                 Self::Tilde => "~".to_owned(),
             }
+        }
+    }
+
+    impl PartialEq for Symbols {
+        fn eq(&self, other: &Self) -> bool {
+            self.to_string() == other.to_string()
         }
     }
 }

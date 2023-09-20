@@ -21,11 +21,15 @@ impl Analyzer {
             let mut tokenizer = StreamTokenizer::new(&file);
 
             // create a output file
-            let output_file = File::create(file.with_extension("xml"))?;
+            let output_file = File::create("Output.xml")?;
             let mut writer = BufWriter::new(output_file);
 
             // use compilation engine to compile tokens from the tokenizer
-            CompilationEngine::compile(&mut tokenizer, &mut writer)?;
+            let mut engine = CompilationEngine::new(&mut writer, &mut tokenizer);
+            match engine.compile() {
+                Ok(_) => {}
+                Err(e) => eprintln!("{:?}", e),
+            };
 
             // save compilation output into output file
             writer.flush()?;
